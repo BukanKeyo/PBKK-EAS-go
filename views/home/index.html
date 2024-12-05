@@ -10,12 +10,54 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
+    <style>
+      /* Background */
+      body {
+        background: url('https://img.freepik.com/free-vector/seamless-pattern-with-cinema-elements_225004-1155.jpg?t=st=1733385323~exp=1733388923~hmac=56f61f7ebacccb4c65771e2a837454b51ae2937e452f616ea74e17bc6751db77&w=740') no-repeat center center fixed; 
+        background-size: cover;
+        color: #6b4f1e;
+        /* font-family: Arial, sans-serif; */
+      }
+
+      /* Central Box */
+      .center-box {
+        background-color: rgba(255, 249, 230, 0.9); /* Semi-transparent light yellow */
+        border-radius: 15px;
+        padding: 5rem 8rem;
+        text-align: center;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        color: #6b4f1e;
+        font-weight: bold;
+        font-size: 4rem;
+      }
+
+      p {
+        color: #6b4f1e;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn-custom {
+        background-color: #ffd966;
+        color: #6b4f1e;
+        font-weight: bold;
+        border: none;
+      }
+
+      .btn-custom:hover {
+        background-color: #ffcc33;
+        color: white;
+      }
+    </style>
   </head>
   <body>
-    <!-- Navar -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-dark">
       <div class="container">
-        <a class="navbar-brand text-light" href="/">Go Movies</a>
+        <a class="navbar-brand" style="color:#ffd966" href="/">Go Movies</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -48,8 +90,24 @@
     </nav>
     <!-- End of Navbar -->
 
-    <div class="container mt-3">
-      <h1>Hello, world!</h1>
+    <!-- Main Content -->
+    <div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+      <div class="center-box">
+        <h1 style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">GO Movies</h1>
+        <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">Personalized movie reviewer website</p>
+        
+        <div>
+          <a href="/movies" class="btn btn-custom me-2" style="font-size: large; font-family: Geneva, Tahoma, sans-serif">Movies</a>
+          <a href="/genres" class="btn btn-custom" style="font-size: large; font-family: Geneva, Tahoma, sans-serif">Genres</a>
+        </div>
+      </div>
     </div>
+    <!-- End of Main Content -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76A8fDZfyt+zog8jvDjQDf8jTBr6jE2f4zOhnNQxCFez0nY2wGhT5g9eE6dkt4k"
+      crossorigin="anonymous"
+    ></script> 
   </body>
 </html>

@@ -10,12 +10,55 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
+    <style>
+      /* Background */
+      body {
+        background: url('https://img.freepik.com/free-vector/seamless-pattern-with-cinema-elements_225004-1155.jpg?t=st=1733385323~exp=1733388923~hmac=56f61f7ebacccb4c65771e2a837454b51ae2937e452f616ea74e17bc6751db77&w=740') no-repeat center center fixed;
+        background-size: cover;
+      /*  font-family: Arial, sans-serif; */
+      }
+
+      /* Content Wrapper */
+      .content-wrapper {
+        background-color: #fff9e6; /* Soft light yellow */
+        padding: 2rem;
+        margin: 0 5px 0 5px; /* Center horizontally */
+        min-height: 100vh; /* Make it fill the viewport height */
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      /*  display: flex;
+        flex-direction: column; */
+      }
+
+      /* Table Styling */
+      table {
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+      }
+
+      th {
+        background-color: #ffd966; /* Soft yellow */
+        color: #6b4f1e; /* Dark brown */
+        font-weight: bold;
+      }
+
+      td, th {
+        padding: 1rem;
+        text-align: center;
+        border: 1px solid #ddd;
+      }
+
+      h2 {
+        color: #6b4f1e; /* Matching dark brown */
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-    <!-- Navar -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-dark">
       <div class="container">
-        <a class="navbar-brand text-light" href="/">Go Movies</a>
+        <a class="navbar-brand" style="color:#ffd966" href="/">Go Movies</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -48,47 +91,57 @@
     </nav>
     <!-- End of Navbar -->
 
-    <div class="container mt-3">
-      <h2>List Movies</h2>
-      <hr />
-      <a href="/movies/add" class="btn btn-primary">Add Movie</a>
-      <table class="table table-bordered mt-2 text-center">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Genre</th>
-            <th>Rating</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{range .movies}}
-          <tr>
-            <td>{{.Name}}</td>
-            <td>{{.Genre.Name}}</td>
-            <td>{{.Rating}}</td>
-            <td>
-              <a
-                href="/movies/detail?id={{.Id}}"
-                class="btn btn-sm btn-info text-light"
-                >Detail</a
-              >
-              <a
-                href="/movies/edit?id={{.Id}}"
-                class="btn btn-sm btn-warning text-light"
-                >Edit</a
-              >
-              <a
-                href="/movies/delete?id={{.Id}}"
-                onclick="return confirm('Are you sure want to delete this movie ?')"
-                class="btn btn-sm btn-danger"
-                >Delete</a
-              >
-            </td>
-          </tr>
-          {{end}}
-        </tbody>
-      </table>
+    <!-- Main Content -->
+    <div class="container">
+      <div class="content-wrapper">
+        <h2>Movie List</h2>
+        <hr />
+        <a href="/movies/add" class="btn btn-primary mb-3 d-inline-block">Add Movie</a>
+        <table class="table table-bordered text-center">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Genre</th>
+              <th>Rating</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .movies}}
+            <tr>
+              <td>{{.Name}}</td>
+              <td>{{.Genre.Name}}</td>
+              <td>{{.Rating}}</td>
+              <td>
+                <a
+                  href="/movies/detail?id={{.Id}}"
+                  class="btn btn-sm btn-info text-light"
+                  >Detail</a
+                >
+                <a
+                  href="/movies/edit?id={{.Id}}"
+                  class="btn btn-sm btn-warning text-light"
+                  >Edit</a
+                >
+                <a
+                  href="/movies/delete?id={{.Id}}"
+                  onclick="return confirm('Are you sure want to delete this movie ?')"
+                  class="btn btn-sm btn-danger"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
     </div>
+    <!-- End of Main Content -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76A8fDZfyt+zog8jvDjQDf8jTBr6jE2f4zOhnNQxCFez0nY2wGhT5g9eE6dkt4k"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
