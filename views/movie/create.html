@@ -10,12 +10,62 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
+    <style>
+      /* Background */
+      body {
+        background: url('https://img.freepik.com/free-vector/seamless-pattern-with-cinema-elements_225004-1154.jpg?t=st=1733404107~exp=1733407707~hmac=81ce51e81550d30a117cea2d44a5b892c1820d2297a98171daebd638d6825e2d&w=740') no-repeat center center fixed;
+        background-size: cover;
+      }
+
+      /* Background Opacity Overlay */
+      .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 253, 228, 0.7); /* Adjustable opacity */
+        z-index: -1; /* Place behind all content */
+      }
+
+      /* Content Wrapper Styling */
+      .content-wrapper {
+        background-color: #fff9e6; /* Soft light yellow */
+        padding: 2rem;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+      }
+
+      h2 {
+        color: #6b4f1e; /* Matching dark brown */
+        text-align: center;
+      }
+
+      label {
+        color: #6b4f1e;
+      }
+
+      .btn-primary {
+        background-color: #ffd966;
+        border-color: #ffd966;
+        color: #6b4f1e;
+      }
+
+      .btn-primary:hover {
+        background-color: #e6c754;
+        border-color: #e6c754;
+      }
+    </style>
   </head>
   <body>
-    <!-- Navar -->
+    <!-- Background Overlay -->
+    <div class="background-overlay"></div>
+
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-dark">
       <div class="container">
-        <a class="navbar-brand text-light" href="/">Go Movies</a>
+        <a class="navbar-brand" style="color:#ffd966" href="/">Go Movies</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -48,54 +98,64 @@
     </nav>
     <!-- End of Navbar -->
 
-    <div class="container mt-3">
+    <!-- Main Content -->
+    <div class="container">
       <div class="row d-flex justify-content-center">
-        <div class="col-4">
-          <h2>Add Movies</h2>
-          <hr />
+        <div class="col-6">
+          <div class="content-wrapper">
+            <h2>Add Movie</h2>
+            <hr />
 
-          <form action="/movies/add" method="POST">
-            <div class="mb-3">
-              <label class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                name="name"
-                autocomplete="off"
-              />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Genre</label>
-              <select class="form-select" name="genre_id">
-                {{range .genres}}
-                <option value="{{ .Id}}">{{.Name}}</option>
-                {{end}}
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Rating</label>
-              <input
-                type="number"
-                class="form-control"
-                name="rating"
-                autocomplete="off"
-              />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Description</label>
-              <textarea
-                class="form-control"
-                name="description"
-                rows="3"
-              ></textarea>
-            </div>
-            <div class="float-end">
-              <a href="/movies" class="btn btn-secondary">Back</a>
-              <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-          </form>
+            <form action="/movies/add" method="POST">
+              <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="name"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Genre</label>
+                <select class="form-select" name="genre_id">
+                  {{range .genres}}
+                  <option value="{{ .Id}}">{{.Name}}</option>
+                  {{end}}
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Rating</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="rating"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  name="description"
+                  rows="3"
+                ></textarea>
+              </div>
+              <div class="text-end">
+                <a href="/movies" class="btn btn-secondary">Back</a>
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+    <!-- End of Main Content -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76A8fDZfyt+zog8jvDjQDf8jTBr6jE2f4zOhnNQxCFez0nY2wGhT5g9eE6dkt4k"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

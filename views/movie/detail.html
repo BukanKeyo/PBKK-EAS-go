@@ -3,19 +3,52 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GO Movies</title>
+    <title>Movie Details - GO Movies</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
+    <style>
+      body {
+        background: url('https://img.freepik.com/free-vector/seamless-pattern-with-cinema-elements_225004-1154.jpg?t=st=1733404107~exp=1733407707~hmac=81ce51e81550d30a117cea2d44a5b892c1820d2297a98171daebd638d6825e2d&w=740') no-repeat center center fixed;
+        background-size: cover;
+      }
+
+      .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 253, 228, 0.7);
+        z-index: -1;
+      }
+
+      .content-wrapper {
+        background-color: #fff9e6;
+        padding: 2rem;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+      }
+
+      h2 {
+        color: #6b4f1e;
+        text-align: center;
+      }
+
+      label {
+        color: #6b4f1e;
+      }
+    </style>
   </head>
   <body>
-    <!-- Navar -->
+    <div class="background-overlay"></div>
     <nav class="navbar navbar-expand-lg bg-dark">
       <div class="container">
-        <a class="navbar-brand text-light" href="/">Go Movies</a>
+        <a class="navbar-brand" style="color:#ffd966" href="/">Go Movies</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -30,76 +63,45 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item pe-3">
-              <a
-                class="nav-link active text-light"
-                aria-current="page"
-                href="/movies"
-                >Movies</a
-              >
+              <a class="nav-link active text-light" href="/movies">Movies</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active text-light" href="/genres"
-                >Genres</a
-              >
+              <a class="nav-link active text-light" href="/genres">Genres</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <!-- End of Navbar -->
 
-    <div class="container mt-3">
+    <div class="container">
       <div class="row d-flex justify-content-center">
-        <div class="col-4">
-          <h2>Detail Movie</h2>
-          <hr />
-
-          <form action="/movies/add" method="POST">
+        <div class="col-6">
+          <div class="content-wrapper">
+            <h2>Movie Details</h2>
+            <hr />
             <div class="mb-3">
               <label class="form-label">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                value="{{ .movie.Name}}"
-                disabled
-              />
+              <input type="text" class="form-control" value="{{ .movie.Name }}" disabled />
             </div>
             <div class="mb-3">
               <label class="form-label">Genre</label>
-              <input
-                type="text"
-                class="form-control"
-                value="{{ .movie.Genre.Name}}"
-                disabled
-              />
+              <input type="text" class="form-control" value="{{ .movie.Genre.Name }}" disabled />
             </div>
             <div class="mb-3">
               <label class="form-label">Rating</label>
-              <input
-                type="number"
-                class="form-control"
-                name="rating"
-                value="{{ .movie.Rating}}"
-                disabled
-              />
+              <input type="number" class="form-control" value="{{ .movie.Rating }}" disabled />
             </div>
             <div class="mb-3">
               <label class="form-label">Description</label>
-              <textarea
-                class="form-control"
-                name="description"
-                rows="3"
-                disabled
-              >
-{{.movie.Description}}</textarea
-              >
+              <textarea class="form-control" rows="3" disabled>{{ .movie.Description }}</textarea>
             </div>
-            <div class="float-end">
+            <div class="text-end">
               <a href="/movies" class="btn btn-secondary">Back</a>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
