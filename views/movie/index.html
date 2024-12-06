@@ -15,7 +15,6 @@
       body {
         background: url('https://img.freepik.com/free-vector/seamless-pattern-with-cinema-elements_225004-1155.jpg?t=st=1733385323~exp=1733388923~hmac=56f61f7ebacccb4c65771e2a837454b51ae2937e452f616ea74e17bc6751db77&w=740') no-repeat center center fixed;
         background-size: cover;
-      /*  font-family: Arial, sans-serif; */
       }
 
       /* Content Wrapper */
@@ -25,15 +24,24 @@
         margin: 0 5vh; /* Center horizontally */
         min-height: 100vh; /* Make it fill the viewport height */
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9);
-      /*  display: flex;
-        flex-direction: column; */
       }
 
       /* Table Styling */
       table {
         background-color: white;
         border-radius: 5px;
-        overflow: hidden;
+        width: 100%;
+        table-layout: fixed; /* Fixed column widths */
+      }
+
+      th, td {
+        padding: 1rem;
+        text-align: center;
+        vertical-align: middle;
+        text-wrap: balance;
+        border: 1px solid #ddd;
+        word-wrap: break-word; /* Break long words */
+        white-space: normal; /* Allow text to wrap to the next line */
       }
 
       th {
@@ -42,10 +50,18 @@
         font-weight: bold;
       }
 
-      td, th {
-        padding: 1rem;
-        text-align: center;
-        border: 1px solid #ddd;
+      /* Set fixed widths for each column */
+      th:nth-child(1), td:nth-child(1) {
+        width: 40%; 
+      }
+      th:nth-child(2), td:nth-child(2) {
+        width: 20%;
+      }
+      th:nth-child(3), td:nth-child(3) {
+        width: 15%;
+      }
+      th:nth-child(4), td:nth-child(4) {
+        width: 25%;
       }
 
       h2 {

@@ -33,7 +33,8 @@
       table {
         background-color: white;
         border-radius: 5px;
-        overflow: hidden;
+        width: 100%;
+        table-layout: fixed;
       }
 
       th {
@@ -45,7 +46,19 @@
       td, th {
         padding: 1rem;
         text-align: center;
+        vertical-align: middle;
+        text-wrap: balance;
         border: 1px solid #ddd;
+        word-wrap: break-word; /* Break long words */
+        white-space: normal; /* Allow text to wrap to the next line */
+      }
+
+      /* Set fixed widths for each column */
+      th:nth-child(1), td:nth-child(1) {
+        width: 45%;
+      }
+      th:nth-child(2), td:nth-child(2) {
+        width: 55%;
       }
 
       h2 {
