@@ -31,7 +31,7 @@
         background-color: white;
         border-radius: 5px;
         width: 100%;
-        table-layout: fixed; /* Fixed column widths */
+        table-layout: fixed;
       }
 
       th, td {
@@ -48,6 +48,14 @@
         background-color: #ffd966; /* Soft yellow */
         color: #6b4f1e; /* Dark brown */
         font-weight: bold;
+      }
+
+      th.sortable {
+        cursor: pointer; /* Change cursor to pointer */
+        transition: color 0.2s ease-in-out; /* Smooth color transition */
+      }
+      th.sortable:hover {
+        color: #d4a24c; /* Lighter brown on hover */
       }
 
       /* Set fixed widths for each column */
@@ -113,12 +121,12 @@
         <h2>Movie List</h2>
         <hr />
         <a href="/movies/add" class="btn btn-primary mb-3 d-inline-block">Add Movie</a>
-        <table class="table table-bordered text-center">
+        <table id="moviesTable" class="table table-bordered text-center">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Genre</th>
-              <th>Rating</th>
+              <th class="sortable">Name</th>
+              <th class="sortable">Genre</th>
+              <th class="sortable">Rating</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -141,7 +149,7 @@
                 >
                 <a
                   href="/movies/delete?id={{.Id}}"
-                  onclick="return confirm('Are you sure want to delete this movie ?')"
+                  onclick="return confirm('Are you sure you want to delete this movie?')"
                   class="btn btn-sm btn-danger"
                   >Delete</a
                 >
@@ -154,10 +162,73 @@
     </div>
     <!-- End of Main Content -->
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76A8fDZfyt+zog8jvDjQDf8jTBr6jE2f4zOhnNQxCFez0nY2wGhT5g9eE6dkt4k"
-      crossorigin="anonymous"
-    ></script>
+    <script>
+      let sortState = []; // Track sorting state for each column
+      let originalOrder = []; // Store the original order of rows
+
+      document.addEventListener("DOMContentLoaded", () => {
+          // Save the original order of rows when the page loads
+          const table = document.getElementById("moviesTable");
+          const tbody = table.querySelector("tbody");
+          originalOrder = Array.from(tbody.querySelectorAll("tr"));
+
+          // Add click event listeners only to headers with the 'sortable' class
+          const sortableHeaders = table.querySelectorAll("th.sortable");
+          sortableHeaders.forEach((header, index) => {
+          header.addEventListener("click", () => sortTable(index));
+          });
+      });      
+
+      function sortTable(columnIndex) {
+          const table = document.getElementById("moviesTable");
+          const tbody = table.querySelector("tbody");
+          const rows = Array.from(tbody.querySelectorAll("tr"));
+
+          // Initialize sort state if not set
+          if (!sortState[columnIndex]) {
+          sortState[columnIndex] = "none";
+          }
+
+          // Determine the next sort state
+          let sortOrder;
+          switch (sortState[columnIndex]) {
+          case "none":
+              sortOrder = "asc";
+              break;
+          case "asc":
+              sortOrder = "desc";
+              break;
+          case "desc":
+          default:
+              sortOrder = "none";
+              break;
+          }
+
+          // Update sort state
+          sortState[columnIndex] = sortOrder;
+
+          if (sortOrder === "none") {
+          // Reset to original order
+          tbody.innerHTML = "";
+          originalOrder.forEach(row => tbody.appendChild(row));
+          } else {
+          // Sort rows
+          rows.sort((a, b) => {
+              const cellA = a.children[columnIndex].innerText.trim().toLowerCase();
+              const cellB = b.children[columnIndex].innerText.trim().toLowerCase();
+
+              if (sortOrder === "asc") {
+              return cellA.localeCompare(cellB, undefined, { numeric: true });
+              } else {
+              return cellB.localeCompare(cellA, undefined, { numeric: true });
+              }
+          });
+
+          // Clear previous rows and append sorted rows
+          tbody.innerHTML = "";
+          rows.forEach(row => tbody.appendChild(row));
+          }
+      }
+    </script>    
   </body>
 </html>

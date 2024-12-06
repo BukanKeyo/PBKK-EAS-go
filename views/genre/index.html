@@ -15,7 +15,6 @@
       body {
         background: url('https://img.freepik.com/free-vector/seamless-pattern-with-cinema-elements_225004-1155.jpg?t=st=1733385323~exp=1733388923~hmac=56f61f7ebacccb4c65771e2a837454b51ae2937e452f616ea74e17bc6751db77&w=740') no-repeat center center fixed;
         background-size: cover;
-       /* font-family: Arial, sans-serif; */
       }
 
       /* Content Wrapper */
@@ -25,8 +24,6 @@
         margin: 0 5vh; /* Center horizontally */
         min-height: 100vh; /* Make it fill the viewport height */
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.9);
-   /*     display: flex;
-        flex-direction: column;   */
       }
 
       /* Table Styling */
@@ -51,6 +48,14 @@
         border: 1px solid #ddd;
         word-wrap: break-word; /* Break long words */
         white-space: normal; /* Allow text to wrap to the next line */
+      }
+
+      th.sortable {
+        cursor: pointer; /* Change cursor to pointer */
+        transition: color 0.2s ease-in-out; /* Smooth color transition */
+      }
+      th.sortable:hover {
+        color: #d4a24c; /* Lighter brown on hover */
       }
 
       /* Set fixed widths for each column */
@@ -110,10 +115,10 @@
         <h2>Genre List</h2>
         <hr />
         <a href="/genres/add" class="btn btn-primary mb-3 d-inline-block">Add Genre</a>
-        <table class="table table-bordered text-center">
+        <table id="genresTable" class="table table-bordered text-center">
           <thead>
             <tr>
-              <th>Name</th>
+              <th class="sortable">Name</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -129,7 +134,7 @@
                 >
                 <a
                   href="/genres/delete?id={{.Id}}"
-                  onclick="return confirm('Are you sure want to delete this genre ?')"
+                  onclick="return confirm('Are you sure you want to delete this genre?')"
                   class="btn btn-sm btn-danger"
                   >Delete</a
                 >
@@ -142,10 +147,73 @@
     </div>
     <!-- End of Main Content -->
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76A8fDZfyt+zog8jvDjQDf8jTBr6jE2f4zOhnNQxCFez0nY2wGhT5g9eE6dkt4k"
-      crossorigin="anonymous"
-    ></script>
+    <script>
+      let sortState = []; // Track sorting state for each column
+      let originalOrder = []; // Store the original order of rows
+
+      document.addEventListener("DOMContentLoaded", () => {
+          // Save the original order of rows when the page loads
+          const table = document.getElementById("genresTable");
+          const tbody = table.querySelector("tbody");
+          originalOrder = Array.from(tbody.querySelectorAll("tr"));
+
+          // Add click event listeners only to headers with the 'sortable' class
+          const sortableHeaders = table.querySelectorAll("th.sortable");
+          sortableHeaders.forEach((header, index) => {
+          header.addEventListener("click", () => sortTable(index));
+          });
+      });      
+
+      function sortTable(columnIndex) {
+          const table = document.getElementById("genresTable");
+          const tbody = table.querySelector("tbody");
+          const rows = Array.from(tbody.querySelectorAll("tr"));
+
+          // Initialize sort state if not set
+          if (!sortState[columnIndex]) {
+          sortState[columnIndex] = "none";
+          }
+
+          // Determine the next sort state
+          let sortOrder;
+          switch (sortState[columnIndex]) {
+          case "none":
+              sortOrder = "asc";
+              break;
+          case "asc":
+              sortOrder = "desc";
+              break;
+          case "desc":
+          default:
+              sortOrder = "none";
+              break;
+          }
+
+          // Update sort state
+          sortState[columnIndex] = sortOrder;
+
+          if (sortOrder === "none") {
+          // Reset to original order
+          tbody.innerHTML = "";
+          originalOrder.forEach(row => tbody.appendChild(row));
+          } else {
+          // Sort rows
+          rows.sort((a, b) => {
+              const cellA = a.children[columnIndex].innerText.trim().toLowerCase();
+              const cellB = b.children[columnIndex].innerText.trim().toLowerCase();
+
+              if (sortOrder === "asc") {
+              return cellA.localeCompare(cellB, undefined, { numeric: true });
+              } else {
+              return cellB.localeCompare(cellA, undefined, { numeric: true });
+              }
+          });
+
+          // Clear previous rows and append sorted rows
+          tbody.innerHTML = "";
+          rows.forEach(row => tbody.appendChild(row));
+          }
+      }
+    </script>
   </body>
 </html>
