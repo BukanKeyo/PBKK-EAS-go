@@ -35,7 +35,7 @@
       }
 
       th {
-        background-color: #ffd966; /* Soft yellow */
+        background-color: #e6e0cf; /* Soft brown */
         color: #6b4f1e; /* Dark brown */
         font-weight: bold;
       }
@@ -45,14 +45,14 @@
         text-align: center;
         vertical-align: middle;
         text-wrap: balance;
-        border: 1px solid #ddd;
+        border: 1px solid #d3cfc0;
         word-wrap: break-word; /* Break long words */
         white-space: normal; /* Allow text to wrap to the next line */
       }
 
       th.sortable {
         cursor: pointer; /* Change cursor to pointer */
-        transition: color 0.2s ease-in-out; /* Smooth color transition */
+        transition: color 0.1s ease-in-out; 
       }
       th.sortable:hover {
         color: #d4a24c; /* Lighter brown on hover */
@@ -118,8 +118,8 @@
         <table id="genresTable" class="table table-bordered text-center">
           <thead>
             <tr>
-              <th class="sortable">Name</th>
-              <th>Action</th>
+              <th class="sortable" style="background-color: #e6e0cf">Name</th>
+              <th style="background-color: #e6e0cf">Action</th>
             </tr>
           </thead>
           <tbody>

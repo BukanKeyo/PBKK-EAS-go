@@ -39,20 +39,20 @@
         text-align: center;
         vertical-align: middle;
         text-wrap: balance;
-        border: 1px solid #ddd;
+        border: 1px solid #d3cfc0;
         word-wrap: break-word; /* Break long words */
         white-space: normal; /* Allow text to wrap to the next line */
       }
 
       th {
-        background-color: #ffd966; /* Soft yellow */
+        background-color: #e6e0cf; /* Soft brown */
         color: #6b4f1e; /* Dark brown */
         font-weight: bold;
       }
 
       th.sortable {
         cursor: pointer; /* Change cursor to pointer */
-        transition: color 0.2s ease-in-out; /* Smooth color transition */
+        transition: color 0.1s ease-in-out;
       }
       th.sortable:hover {
         color: #d4a24c; /* Lighter brown on hover */
@@ -75,6 +75,16 @@
       h2 {
         color: #6b4f1e; /* Matching dark brown */
         text-align: center;
+      }
+
+      .btn-outline-secondary{
+        background-color: white; 
+        border: 1px solid #928484;
+      }
+      .btn-outline-secondary:hover {
+        background-color: #928484;
+        color: white;
+        border: 1px solid #928484;
       }
     </style>
   </head>
@@ -120,17 +130,34 @@
       <div class="content-wrapper">
         <h2>Movie List</h2>
         <hr />
-        <a href="/movies/add" class="btn btn-primary mb-3 d-inline-block">Add Movie</a>
+         <!-- Action Bar -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <a href="/movies/add" class="btn btn-primary d-inline-block">Add Movie</a>
+          <!-- Search Bar -->
+          <div class="input-group" style="width: 400px;">
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="Search by Title, Genre, or Rating..."
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+              Clear
+            </button>
+          </div>
+        </div>
+        
         <table id="moviesTable" class="table table-bordered text-center">
           <thead>
             <tr>
-              <th class="sortable">Name</th>
-              <th class="sortable">Genre</th>
-              <th class="sortable">Rating</th>
-              <th>Action</th>
+              <th class="sortable" style="background-color: #e6e0cf">Title</th>
+              <th class="sortable" style="background-color: #e6e0cf">Genre</th>
+              <th class="sortable" style="background-color: #e6e0cf">Rating</th>
+              <th style="background-color: #e6e0cf">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="moviesTableBody">
             {{range .movies}}
             <tr>
               <td>{{.Name}}</td>
@@ -229,6 +256,46 @@
           rows.forEach(row => tbody.appendChild(row));
           }
       }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("searchInput");
+        const clearSearch = document.getElementById("clearSearch");
+        const moviesTableBody = document.getElementById("moviesTableBody");
+        const originalRows = Array.from(moviesTableBody.querySelectorAll("tr"));
+    
+        // Filter the table rows based on the search query
+        searchInput.addEventListener("input", () => {
+          const query = searchInput.value.toLowerCase();
+          filterTable(query);
+        });
+    
+        // Clear the search and reset the table
+        clearSearch.addEventListener("click", () => {
+          searchInput.value = "";
+          resetTable();
+        });
+    
+        // Filter the table rows
+        function filterTable(query) {
+          const filteredRows = originalRows.filter((row) => {
+            const cells = Array.from(row.children);
+            return cells.some((cell) => cell.textContent.toLowerCase().includes(query));
+          });
+    
+          updateTable(filteredRows);
+        }
+    
+        // Reset the table to its original state
+        function resetTable() {
+          updateTable(originalRows);
+        }
+    
+        // Update the table with a new set of rows
+        function updateTable(rows) {
+          moviesTableBody.innerHTML = "";
+          rows.forEach((row) => moviesTableBody.appendChild(row));
+        }
+      });
     </script>    
   </body>
 </html>
