@@ -1,17 +1,16 @@
-package moviecontroller
+package controllers
 
 import (
 	"go-movies/entities"
-	"go-movies/models/genremodel"
-	"go-movies/models/moviemodel"
+	"go-movies/models"
 	"net/http"
 	"strconv"
 	"text/template"
 	"time"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	movies := moviemodel.Getall()
+func IndexMovie(w http.ResponseWriter, r *http.Request) {
+	movies := models.GetAllMovie()
 	data := map[string]any{
 		"movies": movies,
 	}
@@ -24,14 +23,14 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	temp.Execute(w, data)
 }
 
-func Add(w http.ResponseWriter, r *http.Request) {
+func AddMovie(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		temp, err := template.ParseFiles("views/movie/create.html")
 		if err != nil {
 			panic(err)
 		}
 
-		genres := genremodel.GetAll()
+		genres := models.GetAllGenre()
 		data := map[string]any{
 			"genres": genres,
 		}
@@ -59,7 +58,7 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		movie.CreatedAt = time.Now()
 		movie.UpdatedAt = time.Now()
 
-		if ok := moviemodel.Create(movie); !ok {
+		if ok := models.CreateMovie(movie); !ok {
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
 			return
 		}
@@ -68,7 +67,7 @@ func Add(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Detail(w http.ResponseWriter, r *http.Request) {
+func DetailMovie(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 
 	id, err := strconv.Atoi(idString)
@@ -76,7 +75,7 @@ func Detail(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	movie := moviemodel.Detail(id)
+	movie := models.DetailMovie(id)
 	data := map[string]any{
 		"movie": movie,
 	}
@@ -89,7 +88,7 @@ func Detail(w http.ResponseWriter, r *http.Request) {
 	temp.Execute(w, data)
 }
 
-func Edit(w http.ResponseWriter, r *http.Request) {
+func EditMovie(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		temp, err := template.ParseFiles("views/movie/edit.html")
 		if err != nil {
@@ -102,8 +101,8 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		movie := moviemodel.Detail(id)
-		genres := genremodel.GetAll()
+		movie := models.DetailMovie(id)
+		genres := models.GetAllGenre()
 
 		data := map[string]any{
 			"movie":  movie,
@@ -138,7 +137,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		movie.Description = r.FormValue("description")
 		movie.UpdatedAt = time.Now()
 
-		if ok := moviemodel.Update(id, movie); !ok {
+		if ok := models.Update(id, movie); !ok {
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
 			return
 		}
@@ -147,7 +146,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Delete(w http.ResponseWriter, r *http.Request) {
+func DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 
 	id, err := strconv.Atoi(idString)
@@ -155,7 +154,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	if err := moviemodel.Delete(id); err != nil {
+	if err := models.Delete(id); err != nil {
 		panic(err)
 	}
 

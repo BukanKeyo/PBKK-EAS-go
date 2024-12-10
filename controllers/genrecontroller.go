@@ -1,16 +1,16 @@
-package genrecontroller
+package controllers
 
 import (
 	"go-movies/entities"
-	"go-movies/models/genremodel"
+	"go-movies/models"
 	"net/http"
 	"strconv"
 	"text/template"
 	"time"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	genres := genremodel.GetAll()
+func IndexGenre(w http.ResponseWriter, r *http.Request) {
+	genres := models.GetAllGenre()
 	data := map[string]any{
 		"genres": genres,
 	}
@@ -23,7 +23,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	temp.Execute(w, data)
 }
 
-func Add(w http.ResponseWriter, r *http.Request) {
+func AddGenre(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		temp, err := template.ParseFiles("views/genre/create.html")
 		if err != nil {
@@ -40,7 +40,7 @@ func Add(w http.ResponseWriter, r *http.Request) {
 		genre.CreatedAt = time.Now()
 		genre.UpddatedAt = time.Now()
 
-		ok := genremodel.Create(genre)
+		ok := models.CreateGenre(genre)
 		if !ok {
 			temp, _ := template.ParseFiles("views/genre/create.html")
 			temp.Execute(w, nil)
@@ -50,7 +50,7 @@ func Add(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Edit(w http.ResponseWriter, r *http.Request) {
+func EditGenre(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		temp, err := template.ParseFiles("views/genre/edit.html")
 		if err != nil {
@@ -63,7 +63,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		genre := genremodel.Detail(id)
+		genre := models.DetailGenre(id)
 		data := map[string]any{
 			"genre": genre,
 		}
@@ -83,7 +83,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		genre.Name = r.FormValue("name")
 		genre.UpddatedAt = time.Now()
 
-		if ok := genremodel.Update(id, genre); !ok {
+		if ok := models.UpdateGenre(id, genre); !ok {
 			http.Redirect(w, r, r.Header.Get("Referer"), http.StatusTemporaryRedirect)
 			return
 		}
@@ -92,7 +92,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Delete(w http.ResponseWriter, r *http.Request) {
+func DeleteGenre(w http.ResponseWriter, r *http.Request) {
 	idString := r.URL.Query().Get("id")
 
 	id, err := strconv.Atoi(idString)
@@ -100,7 +100,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	if err := genremodel.Delete(id); err != nil {
+	if err := models.DeleteGenre(id); err != nil {
 		panic(err)
 	}
 

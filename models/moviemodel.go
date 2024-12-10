@@ -1,11 +1,11 @@
-package moviemodel
+package models
 
 import (
 	"go-movies/config"
 	"go-movies/entities"
 )
 
-func Getall() []entities.Movie {
+func GetAllMovie() []entities.Movie {
 	rows, err := config.DB.Query(`
 		SELECT 
 			movies.id, 
@@ -46,7 +46,7 @@ func Getall() []entities.Movie {
 	return movies
 }
 
-func Create(movie entities.Movie) bool {
+func CreateMovie(movie entities.Movie) bool {
 	result, err := config.DB.Exec(`
 		INSERT INTO movies(
 			name, genre_id, rating, description, created_at, updated_at
@@ -71,7 +71,7 @@ func Create(movie entities.Movie) bool {
 	return lastInsertId > 0
 }
 
-func Detail(id int) entities.Movie {
+func DetailMovie(id int) entities.Movie {
 	row := config.DB.QueryRow(`
 		SELECT 
 			movies.id, 

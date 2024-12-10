@@ -1,11 +1,11 @@
-package genremodel
+package models
 
 import (
 	"go-movies/config"
 	"go-movies/entities"
 )
 
-func GetAll() []entities.Genre {
+func GetAllGenre() []entities.Genre {
 	rows, err := config.DB.Query(`SELECT * FROM genres`)
 	if err != nil {
 		panic(err)
@@ -27,7 +27,7 @@ func GetAll() []entities.Genre {
 	return genres
 }
 
-func Create(genre entities.Genre) bool {
+func CreateGenre(genre entities.Genre) bool {
 	result, err := config.DB.Exec(`
 		INSERT INTO genres (name, created_at, updated_at) 
 		VALUE (?, ?, ?)`,
@@ -48,7 +48,7 @@ func Create(genre entities.Genre) bool {
 	return lastInsertId > 0
 }
 
-func Detail(id int) entities.Genre {
+func DetailGenre(id int) entities.Genre {
 	row := config.DB.QueryRow(`SELECT id, name FROM genres WHERE id = ? `, id)
 
 	var genre entities.Genre
@@ -60,7 +60,7 @@ func Detail(id int) entities.Genre {
 	return genre
 }
 
-func Update(id int, genre entities.Genre) bool {
+func UpdateGenre(id int, genre entities.Genre) bool {
 	query, err := config.DB.Exec(`UPDATE genres SET name = ?, updated_at = ? where id = ?`, genre.Name, genre.UpddatedAt, id)
 	if err != nil {
 		panic(err)
@@ -74,7 +74,7 @@ func Update(id int, genre entities.Genre) bool {
 	return result > 0
 }
 
-func Delete(id int) error {
+func DeleteGenre(id int) error {
 	_, err := config.DB.Exec("DELETE FROM genres WHERE id = ?", id)
 	return err
 }
